@@ -27,21 +27,21 @@
 
 3. **Install dependencies** (this may take a few minutes):
     
-**Full installation** (advanced features):
-- Includes: Trellis (shape completion), SAM-2 (segmentation), Depth-Anything-2 (depth estimation), FLUX (image inpainting)
-- Note: Takes longer and may encounter errors. Only install if you need these features.
+    **Full installation** (advanced features):
+    - Includes: Trellis (shape completion), SAM-2 (segmentation), Depth-Anything-2 (depth estimation), FLUX (image inpainting)
+    - Note: Takes longer and may encounter errors. Only install if you need these features.
 
-    ```sh
-    pixi run setup
-    ```
+        ```sh
+        pixi run setup
+        ```
 
-**Simple installation** (recommended for most users):
-- Includes: inverse graphics, intuitive physics, forward simulation
-- Use when depth maps, segmentation masks, and meshes are provided or not needed
+    **Simple installation** (recommended for most users):
+    - Includes: inverse graphics, intuitive physics, forward simulation
+    - Use when depth maps, segmentation masks, and meshes are provided or not needed
 
-    ```sh
-    pixi run setup_simple
-    ```
+        ```sh
+        pixi run setup_simple
+        ```
 
 
 4. **Connect to Hugging Face** *(optional - only if using Hugging Face models)*:
