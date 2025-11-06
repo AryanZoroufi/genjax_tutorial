@@ -45,9 +45,9 @@
 
 
 4. **Connect to Hugging Face** *(optional - only if using Hugging Face models)*:
-```sh
-    huggingface-cli login
-```
+    ```sh
+        huggingface-cli login
+    ```
     Follow the prompts in the terminal to complete authentication.
 
 5. **Request FLUX access** *(optional - only if using FLUX for image inpainting)*:
