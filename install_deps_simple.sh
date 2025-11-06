@@ -99,11 +99,11 @@ cd ../
 
 # cd ../..
 
-# echo "Setting up nvdiffrast..."
-# clone_if_not_exists "https://github.com/NVlabs/nvdiffrast" "nvdiffrast"
-# cd nvdiffrast
-# python -m pip install -e .
-# cd ..
+echo "Setting up nvdiffrast..."
+clone_if_not_exists "https://github.com/NVlabs/nvdiffrast" "nvdiffrast"
+cd nvdiffrast
+python -m pip install -e .
+cd ..
 
 # # Set PYTHONPATH
 # export PYTHONPATH=$PYTHONPATH:$(pwd)/modules/Depth-Anything-V2

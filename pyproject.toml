@@ -54,6 +54,14 @@ CXX = "/usr/bin/g++"
 description = "complete setup - installs pixi dependencies and sets up all repositories (run this instead of pixi install)"
 cmd = "./setup.sh"
 
+[tool.pixi.tasks.setup_simple]
+description = "complete setup - installs pixi dependencies and sets up all repositories (run this instead of pixi install)"
+cmd = "./setup_simple.sh"
+
+[tool.pixi.tasks.install_deps_simple]
+description = "setup repositories and dependencies (assumes pixi install already run)"
+cmd = "./install_deps_simple.sh"
+
 [tool.pixi.tasks.install_deps]
 description = "setup repositories and dependencies (assumes pixi install already run)"
 cmd = "./install_deps.sh"

@@ -19,22 +19,38 @@
     git clone https://github.com/AryanZoroufi/genjax_tutorial.git
     cd genjax_tutorial
     ```
-
-2. **Install dependencies** (this step may take a few minutes):
+2. Make setup file executable
     ```sh
+    chmod +x setup.sh
+    chmod +x setup_simple.sh
+    ```
+
+3. **Install dependencies** (this may take a few minutes):
+    
+    **Simple installation** (recommended for most users):
+    - Includes: inverse graphics, intuitive physics, forward simulation
+    - Use when depth maps, segmentation masks, and meshes are provided or not needed
+```sh
+    pixi run setup_simple
+```
+    
+    **Full installation** (advanced features):
+    - Includes: Trellis (shape completion), SAM-2 (segmentation), Depth-Anything-2 (depth estimation), FLUX (image inpainting)
+    - Note: Takes longer and may encounter errors. Only install if you need these features.
+```sh
     pixi run setup
-    ```
+```
 
-<!-- 3. **Connect to your Hugging Face account**:
-    ```sh
+4. **Connect to Hugging Face** *(optional - only if using Hugging Face models)*:
+```sh
     huggingface-cli login
-    ```
-    Then follow the steps in the terminal.
+```
+    Follow the prompts in the terminal to complete authentication.
 
-4. **Request access to Flux**: 
-   - Go to [this link](https://huggingface.co/black-forest-labs/FLUX.1-Fill-dev)
-   - Login to your Hugging Face account 
-   - Click "Agree" to request access to the repository -->
+5. **Request FLUX access** *(optional - only if using FLUX for image inpainting)*:
+   - Visit the [FLUX.1-Fill-dev repository](https://huggingface.co/black-forest-labs/FLUX.1-Fill-dev)
+   - Log in to your Hugging Face account
+   - Click "Agree" to request repository access
 
 ## 💡 Usage
 
