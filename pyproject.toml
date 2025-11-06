@@ -1,0 +1,272 @@
+# https://pixi.sh/latest/reference/project_configuration/
+#
+# - 'pixi info' for the list of environments, features, and dependnencies.
+# - 'pixi list' for the list of dependencies
+# - 'pixi tree' for the tree view of dependencies
+# - 'pixi task list' for the list of tasks you can run
+
+[project]
+name = "genjax_env"
+version = "0.0.1"
+description = "An invironment to run probabilistic models alongside neural networks for perception and planning"
+authors = [{ name = "Aryan Zoroufi", email = "aryanz@mit.edu" }]
+requires-python = ">= 3.10"
+dependencies = []
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.environments]
+cpu = { features = ["no-cuda", "core"], solve-group = "default" }
+gpu = { features = ["cuda", "core"], solve-group = "cuda" }
+
+[tool.pixi.pypi-options]
+index-url = "https://pypi.org/simple"
+
+[tool.pixi.pypi-dependencies]
+# b3d = { path = "./modules/b3d", editable = true }
+
+[tool.pixi.dependencies]
+rerun-sdk = ">=0.17.0,<0.24"
+git = "*"
+wget = "*"
+pip = "*"
+boost-cpp = ">=1.84.0,<2"
+eigen = "3.4.0.*"
+cmake = ">=4.0.3,<5"
+
+[tool.pixi.activation.env]
+XLA_PYTHON_CLIENT_PREALLOCATE = "false"
+XLA_PYTHON_CLIENT_ALLOCATOR = "platform"
+CPLUS_INCLUDE_PATH = "$CONDA_PREFIX/targets/x86_64-linux/include"
+LD_LIBRARY_PATH = "$CONDA_PREFIX/x86_64-conda-linux-gnu/sysroot/usr/lib64"
+CC = "/usr/bin/gcc"
+CXX = "/usr/bin/g++"
+
+# Default tasks (CPU-enabled)
+
+[tool.pixi.tasks.setup]
+description = "complete setup - installs pixi dependencies and sets up all repositories (run this instead of pixi install)"
+cmd = "./setup.sh"
+
+[tool.pixi.tasks.install_deps]
+description = "setup repositories and dependencies (assumes pixi install already run)"
+cmd = "./install_deps.sh"
+
+[tool.pixi.tasks.code]
+description = "launch vscode connected to vm (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-connect-vscode"
+cwd = "modules/b3d/scripts"
+depends-on = ["rerun"]
+
+[tool.pixi.tasks.rerun]
+description = "launch rerun"
+cmd = "python modules/b3d/scripts/rerun-task.py"
+
+[tool.pixi.tasks.gcp-help]
+description = "help with gcp tasks"
+cmd = "./gcp.sh :gcp-help"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-env]
+description = "show gcp environment variables"
+cmd = "./gcp.sh :gcp-env"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-list]
+description = "list all machines"
+cmd = "./gcp.sh :gcp-list"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-terminal]
+description = "connect to vm through terminal (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-connect-terminal"
+cwd = "modules/b3d/scripts"
+depends-on = ["rerun"]
+
+[tool.pixi.tasks.gcp-start]
+description = "start a vm (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-start"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-status]
+description = "show vm status (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-status"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-stop]
+description = "stop a vm (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-stop"
+cwd = "modules/b3d/scripts"
+
+[tool.pixi.tasks.gcp-delete]
+description = "delete a vm (requires GCP_VM and GCP_PROJECT)"
+cmd = "./gcp.sh :gcp-delete"
+cwd = "modules/b3d/scripts"
+
+# Core feature (CPU-enabled)
+
+[tool.pixi.feature.core.pypi-dependencies]
+carvekit = "==4.1.2"
+genjax = { git = "https://github.com/genjax-community/genjax.git", tag = "v0.6.1" }
+pykitti = "==0.3.1"
+pyliblzfse = "*"
+pyransac3d = ">=0.6.0,<0.7"
+h5py = "*"
+joblib = "*"
+termcolor = "*"
+einops = "*"
+pymcubes = "*"
+omegaconf = "*"
+tensorboard = "*"
+notebook = "*"
+scikit-image = "*"
+
+[tool.pixi.feature.core.dependencies]
+distinctipy = ">=1.3.4,<1.4"
+ffmpeg = "*"
+fire = ">=0.6.0,<0.7"
+imageio = "*"
+ipykernel = "*"
+ipython = ">=8.26.0,<8.27"
+jax = "*"
+jupyter = ">=1.0.0,<1.1"
+jupyterlab = "*"
+jupytext = "*"
+matplotlib = ">=3.9.1,<3.10"
+natsort = ">=8.4.0,<8.5"
+numpy = "<2.0.0"
+ninja = "*"
+open3d = "*"
+optax = ">=0.2.2,<0.3"
+pdoc = "*"
+pillow = "==10.3.0"
+polars = ">=0.20,<0.21"
+pyright = "*"
+pytest = "*"
+python-lzf = "*"
+py-opencv = "*"
+rerun-sdk = "==0.17.0"
+ruff = "*"
+scikit-learn = ">=1.5.1,<1.6"
+scipy = ">=1.14.0,<1.15"
+trimesh = "==4.2.4"
+tqdm = "*"
+
+# Core tasks (CPU-enabled)
+
+[tool.pixi.feature.core.tasks.sync]
+description = "sync test data"
+cmd = "python b3d_pull.py -ow"
+cwd = "modules/b3d/src/b3d/bucket_utils"
+depends-on = ["setup"]
+
+[tool.pixi.feature.core.tasks.sync-ci]
+description = "sync test data"
+cmd = "python b3d_pull.py"
+cwd = "modules/b3d/src/b3d/bucket_utils"
+depends-on = ["setup"]
+
+# No-CUDA feature (CPU-enabled)
+
+[tool.pixi.feature.no-cuda]
+platforms = ["linux-64"]
+
+[tool.pixi.feature.no-cuda.target.linux-64.dependencies]
+gcc = "*"
+jaxlib = { version = "*", build = "cpu*" }
+pytorch = { version = "==2.3.0", build = "cpu_generic*" }
+
+[tool.pixi.feature.no-cuda.tasks.docs]
+description = "render docs to docs/static"
+cmd = "python -m pdoc --logo https://github.com/probcomp/b3d/assets/66085644/50bc2fc3-c9cd-4139-bed6-9c6d53933622 --math --mermaid -o docs/render/ b3d"
+depends-on = ["setup"]
+
+[tool.pixi.feature.no-cuda.tasks.docs.env]
+LD_LIBRARY_PATH = "$CONDA_PREFIX/x86_64-conda-linux-gnu/sysroot/usr/lib64"
+PDOC_ALLOW_EXEC = "1"
+
+# CUDA feature (GPU-enabled)
+
+[tool.pixi.feature.cuda]
+platforms = ["linux-64"]
+system-requirements = { cuda = "12" }
+
+[tool.pixi.feature.cuda.target.linux-64.dependencies]
+cuda-toolkit = "*"
+gcc = "*"
+jax = "*"
+jaxlib = { version = "0.4.28", build = "cuda12*" }
+libnvjitlink = "*"
+optax = ">=0.2.2,<0.3"
+
+# CUDA tasks (GPU-enabled)
+
+[tool.pixi.feature.cuda.tasks.gpu]
+description = "gpu status"
+cmd = "nvidia-smi"
+
+[tool.pixi.feature.cuda.tasks.torch]
+description = "torch status"
+cmd = "python -c 'import torch; print(\"torch: v{}, cuda={}\".format(torch.__version__, torch.cuda.is_available()))'"
+
+[tool.pixi.feature.cuda.tasks.jax]
+description = "jax status"
+cmd = "python -c 'import jax; print(\"jax: v{}, devices={}\".format(jax.__version__, jax.devices()))'"
+
+[tool.pixi.feature.cuda.tasks.sys]
+description = "gpu, torch, and jax status"
+depends-on = ["gpu", "torch", "jax"]
+
+[tool.pixi.feature.cuda.tasks.test]
+description = "run tests (optionally set TEST_TARGETS)"
+cmd = "./scripts/pytest.sh"
+cwd = "modules/b3d"
+depends-on = ["sync", "rerun"]
+env = { TEST_TARGETS = "tests" }
+
+[tool.pixi.feature.cuda.tasks.test-ci]
+description = "run tests (optionally set TEST_TARGETS)"
+cmd = "./scripts/pytest.sh"
+cwd = "modules/b3d"
+depends-on = ["sync-ci"]
+
+[tool.pixi.feature.cuda.tasks.test-ci.env]
+TEST_TARGETS = "tests"
+XLA_PYTHON_CLIENT_PREALLOCATE = "false"
+XLA_PYTHON_CLIENT_ALLOCATOR = "platform"
+CPLUS_INCLUDE_PATH = "$CONDA_PREFIX/targets/x86_64-linux/include"
+LD_LIBRARY_PATH = "$CONDA_PREFIX/x86_64-conda-linux-gnu/sysroot/usr/lib64"
+RERUN_HEADLESS = "1"
+
+# OpenGL dependencies (Linux only)
+
+[tool.pixi.target.linux-64.dependencies]
+glfw = "*"
+libglib = "*"
+libglu = "*"
+libglvnd-devel-cos7-x86_64 = ">=1.0.1,<1.1"
+libglvnd-cos7-x86_64 = ">=1.0.1,<1.1"
+mesalib = "*"
+mesa-libegl-devel-cos7-x86_64 = "*"
+mesa-libegl-cos7-x86_64 = "*"
+mesa-libglu-devel-cos7-x86_64 = "*"
+mesa-libglu-cos7-x86_64 = "*"
+
+# Python tool configurations
+
+[tool.pytest.ini_options]
+pythonpath = ["modules/b3d/src"]
+
+[tool.ruff.lint]
+preview = true
+extend-select = ["I"]
+select = ["E4", "E7", "E9", "F"]
+ignore = ["F403"]                # disables "*" import errors
+fixable = ["ALL"]
+unfixable = []
