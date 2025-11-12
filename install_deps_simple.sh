@@ -141,6 +141,8 @@ pip install --no-deps scipy numpy pillow tqdm ipyevents ipycanvas jupyter flask 
 pip install transformers -U
 pip install accelerate plotly
 pip install "rembg[gpu,cli]" # for library + cli
+pip install --upgrade tensorflow-probability --break-system-packages
+
 # pip install git+https://github.com/lucasb-eyer/pydensecrf.git
 
 # echo "Setting up SceneComplete..."

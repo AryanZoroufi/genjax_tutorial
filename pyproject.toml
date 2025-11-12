@@ -6,9 +6,9 @@
 # - 'pixi task list' for the list of tasks you can run
 
 [project]
-name = "genjax_env"
+name = "ppppp"
 version = "0.0.1"
-description = "An invironment to run probabilistic models alongside neural networks for perception and planning"
+description = "Px6: Python-based Probabilistic Programming for Perception, Planning, and Physics"
 authors = [{ name = "Aryan Zoroufi", email = "aryanz@mit.edu" }]
 requires-python = ">= 3.10"
 dependencies = []
